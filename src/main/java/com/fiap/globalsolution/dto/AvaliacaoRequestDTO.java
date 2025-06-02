@@ -10,7 +10,7 @@ public record AvaliacaoRequestDTO(
         String abrigoId,
 
         @Min(1) @Max(5)
-        int nota,
+        Integer nota,
 
         @Size(max = 500)
         String comentario

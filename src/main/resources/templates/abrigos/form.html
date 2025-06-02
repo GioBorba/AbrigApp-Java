@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{abrigos.tituloFormulario}">Formulário de Abrigo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-6" th:text="#{abrigos.tituloFormulario}">Cadastrar Abrigo</h1>
+
+    <form th:action="@{${formAction}}" th:object="${abrigoRequestDTO}" method="post" class="space-y-4 bg-white p-6 rounded shadow">
+
+        <div>
+            <label class="block text-sm font-medium mb-1" th:for="nome" th:text="#{abrigos.nome}">Nome</label>
+            <input th:field="*{nome}" type="text" class="w-full border border-gray-300 p-2 rounded" required>
+            <div class="text-red-600 text-sm" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Erro</div>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium mb-1" th:for="endereco" th:text="#{abrigos.endereco}">Endereço</label>
+            <input th:field="*{endereco}" type="text" class="w-full border border-gray-300 p-2 rounded" required>
+            <div class="text-red-600 text-sm" th:if="${#fields.hasErrors('endereco')}" th:errors="*{endereco}">Erro</div>
+        </div>
+
+        <div class="flex gap-4">
+            <div class="flex-1">
+                <label class="block text-sm font-medium mb-1" th:for="cidade" th:text="#{abrigos.cidade}">Cidade</label>
+                <input th:field="*{cidade}" type="text" class="w-full border border-gray-300 p-2 rounded" required>
+                <div class="text-red-600 text-sm" th:if="${#fields.hasErrors('cidade')}" th:errors="*{cidade}">Erro</div>
+            </div>
+            <div class="w-24">
+                <label class="block text-sm font-medium mb-1" th:for="estado" th:text="#{abrigos.estado}">UF</label>
+                <input th:field="*{estado}" type="text" maxlength="2" class="w-full border border-gray-300 p-2 rounded uppercase" required>
+                <div class="text-red-600 text-sm" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}">Erro</div>
+            </div>
+        </div>
+
+        <div class="flex gap-4">
+            <div class="flex-1">
+                <label class="block text-sm font-medium mb-1" th:for="latitude" th:text="#{abrigos.latitude}">Latitude</label>
+                <input th:field="*{latitude}" type="number" step="any" class="w-full border border-gray-300 p-2 rounded">
+                <div class="text-red-600 text-sm" th:if="${#fields.hasErrors('latitude')}" th:errors="*{latitude}">Erro</div>
+            </div>
+            <div class="flex-1">
+                <label class="block text-sm font-medium mb-1" th:for="longitude" th:text="#{abrigos.longitude}">Longitude</label>
+                <input th:field="*{longitude}" type="number" step="any" class="w-full border border-gray-300 p-2 rounded">
+                <div class="text-red-600 text-sm" th:if="${#fields.hasErrors('longitude')}" th:errors="*{longitude}">Erro</div>
+            </div>
+        </div>
+
+        <div class="flex justify-between mt-6">
+            <a href="/abrigos/lista" class="text-gray-600 hover:underline" th:text="#{abrigos.cancelar}">Cancelar</a>
+            <button type="submit" class="bg-orange-600 text-white px-6 py-2 rounded hover:bg-orange-700 transition"
+                    th:text="#{abrigos.salvar}">Salvar</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="#{home.titulo}">AbrigApp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+<header class="bg-orange-600 p-4 shadow-md">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-white" th:text="${appName}">AbrigApp</h1>
+        <div class="flex items-center space-x-4">
+            <a href="?lang=pt" class="text-sm text-white">PT</a>
+            <a href="?lang=en" class="text-sm text-white">EN</a>
+
+            <!-- Se estiver logado, mostra botão sair -->
+            <div sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit"
+                            class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-5 rounded shadow">
+                        Sair
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-4xl mx-auto py-16 px-4 text-center">
+    <h2 class="text-4xl font-bold mb-6 text-orange-700" th:text="#{home.boasvindas}">Bem-vindo ao AbrigApp</h2>
+
+    <!-- Mensagem personalizada para usuário logado -->
+    <div sec:authorize="isAuthenticated()" class="mb-6 text-lg text-gray-700">
+        Você está conectado como <span sec:authentication="name" class="font-bold"></span>
+    </div>
+
+    <!-- Botão login só para não autenticados -->
+    <div sec:authorize="!isAuthenticated()">
+        <a href="/oauth2/authorization/google"
+           class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-2xl shadow transition">
+            Entrar com Google
+        </a>
+    </div>
+
+    <div class="mt-6">
+        <a href="/abrigos/lista"
+           class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-2xl shadow transition">
+            Ver abrigos
+        </a>
+    </div>
+
+    <div class="mt-10 text-sm text-gray-600" th:text="#{home.total.abrigos}">
+        Atualmente, temos diversos abrigos cadastrados.
+    </div>
+</main>
+</body>
+</html>

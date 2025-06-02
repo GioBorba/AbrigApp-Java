@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{avaliacoes.tituloMinhas}">Minhas Avaliações</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container mx-auto p-6">
+    <div class="bg-white shadow-xl rounded-2xl p-8 space-y-6">
+        <h1 class="text-3xl font-bold text-orange-600" th:text="#{avaliacoes.tituloMinhas}">Minhas Avaliações</h1>
+
+        <div th:if="${avaliacoes != null and #lists.isEmpty(avaliacoes) == false}">
+            <ul class="space-y-4">
+                <li th:each="av : ${avaliacoes}" class="bg-gray-50 p-4 rounded shadow">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">
+                            <span th:text="#{avaliacoes.abrigo}">Abrigo:</span>
+                            <span th:text="${av.abrigoId}">ID</span>
+                        </span>
+                        <span class="text-yellow-500">
+                            <span th:each="i : ${#numbers.sequence(1, av.nota)}">★</span>
+                            <span th:each="i : ${#numbers.sequence(av.nota + 1, 5)}">☆</span>
+                        </span>
+                    </div>
+                    <p class="mt-2" th:text="${av.comentario}">Comentário</p>
+                    <p class="text-sm text-gray-500 mt-1"
+                       th:text="${#temporals.format(av.dataCriacao, 'dd/MM/yyyy HH:mm')}">Data</p>
+
+                    <div class="flex gap-4 mt-2">
+                        <a th:href="@{|/avaliacoes/${av.id}/editar?abrigoId=${av.abrigoId}|}"
+                           class="text-blue-600 hover:underline text-sm" th:text="#{avaliacoes.editar}">Editar</a>
+
+                        <form th:action="@{|/avaliacoes/${av.id}/excluir?abrigoId=${av.abrigoId}|}" method="post"
+                              th:onsubmit="|return confirm('#{avaliacoes.confirmarExclusao}')|">
+                            <button type="submit" class="text-red-600 hover:underline text-sm" th:text="#{avaliacoes.excluir}">Excluir</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div th:if="${avaliacoes == null or #lists.isEmpty(avaliacoes)}" class="text-gray-500 italic">
+            <p th:text="#{avaliacoes.nenhumaEncontrada}">Você ainda não fez nenhuma avaliação.</p>
+        </div>
+    </div>
+
+    <div class="mt-6">
+        <a href="/" class="text-gray-600 hover:underline" th:text="#{avaliacoes.voltarInicio}">Voltar para a Home</a>
+    </div>
+</div>
+</body>
+</html>

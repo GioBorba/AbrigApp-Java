@@ -22,7 +22,5 @@ public class Usuario {
     @Email
     private String email;
     private String nome;
-    private String providerId;
-
-    private Set<Role> roles = new HashSet<>(Set.of(Role.USER)); // Valor padrão
+    private Role role = Role.USER; // Valor padrão ao criar um usuário
 }

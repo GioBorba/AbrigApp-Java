@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{abrigos.titulo}">Lista de Abrigos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <div th:replace="fragments/header :: header"></div>
+
+<div class="container mx-auto p-4">
+
+    <h1 class="text-2xl font-bold mb-4" th:text="#{abrigos.titulo}">Abrigos Cadastrados</h1>
+
+    <form method="get" class="flex flex-wrap gap-2 mb-4">
+        <input type="text" name="estado"
+               class="border p-2 rounded w-32" th:placeholder="#{abrigos.estado}"/>
+        <input type="text" name="cidade"
+               class="border p-2 rounded w-48" th:placeholder="#{abrigos.cidade}"/>
+        <button type="submit" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 transition"
+                th:text="#{abrigos.filtrar}">Filtrar</button>
+    </form>
+
+    <div class="mt-4 mb-4" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+        <a href="/abrigos/novo" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
+           th:text="#{abrigos.criarNovo}">Novo Abrigo</a>
+    </div>
+
+    <table class="w-full bg-white rounded shadow">
+        <thead>
+        <tr class="bg-gray-200 text-left">
+            <th class="p-2" th:text="#{abrigos.nome}">Nome</th>
+            <th class="p-2" th:text="#{abrigos.cidade}">Cidade</th>
+            <th class="p-2" th:text="#{abrigos.estado}">Estado</th>
+            <th class="p-2" th:text="#{abrigos.acoes}">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="abrigo : ${abrigos}" class="border-t">
+            <td class="p-2" th:text="${abrigo.nome}">Nome</td>
+            <td class="p-2" th:text="${abrigo.cidade}">Cidade</td>
+            <td class="p-2" th:text="${abrigo.estado}">Estado</td>
+            <td class="p-2">
+                <a th:href="@{'/abrigos/' + ${abrigo.id}}"
+                   class="text-blue-600 hover:underline" th:text="#{abrigos.detalhes}">Ver</a>
+                <span th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    |
+                    <a th:href="@{'/abrigos/' + ${abrigo.id} + '/editar'}"
+                       class="text-green-600 hover:underline" th:text="#{abrigos.editar}">Editar</a>
+                </span>
+            </td>
+        </tr>
+        <tr th:if="${abrigos.empty}">
+            <td colspan="4" class="p-4 text-center" th:text="#{abrigos.semResultados}">Nenhum abrigo encontrado</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>
+</body>
+</html>

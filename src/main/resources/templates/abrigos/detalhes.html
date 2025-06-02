@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{abrigos.detalhesTitulo}">Detalhes do Abrigo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container mx-auto p-6">
+    <div class="bg-white shadow-xl rounded-2xl p-8 space-y-4">
+        <h1 class="text-3xl font-bold mb-6 text-orange-600" th:text="#{abrigos.detalhesTitulo}">Detalhes do Abrigo</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <p><strong th:text="#{abrigos.nome}">Nome:</strong> <span th:text="${abrigo.nome}">Nome</span></p>
+            <p><strong th:text="#{abrigos.endereco}">Endereço:</strong> <span th:text="${abrigo.endereco}">Endereço</span></p>
+            <p><strong th:text="#{abrigos.cidade}">Cidade:</strong> <span th:text="${abrigo.cidade}">Cidade</span></p>
+            <p><strong th:text="#{abrigos.estado}">Estado:</strong> <span th:text="${abrigo.estado}">Estado</span></p>
+            <p><strong th:text="#{abrigos.latitude}">Latitude:</strong> <span th:text="${abrigo.latitude}">Latitude</span></p>
+            <p><strong th:text="#{abrigos.longitude}">Longitude:</strong> <span th:text="${abrigo.longitude}">Longitude</span></p>
+            <p><strong th:text="#{abrigos.ativo}">Ativo:</strong> <span th:text="${abrigo.ativo} ? #{sim} : #{nao}">Sim</span></p>
+        </div>
+
+        <div class="flex justify-between items-center mt-6">
+            <a href="/abrigos/lista" class="text-gray-600 hover:underline" th:text="#{abrigos.voltar}">Voltar</a>
+
+            <a th:href="'https://www.google.com/maps/dir/?api=1&destination=' + ${abrigo.latitude} + ',' + ${abrigo.longitude}"
+               target="_blank"
+               class="text-blue-600 hover:underline"
+               th:text="#{abrigos.comoChegar}">Como chegar</a>
+
+            <div class="flex gap-4" sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{'/abrigos/' + ${abrigo.id} + '/editar'}"
+                   class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                   th:text="#{abrigos.editar}">Editar</a>
+
+                <form th:action="@{'/abrigos/' + ${abrigo.id} + '/excluir'}" method="post"
+                      th:onsubmit="|return confirm('#{abrigos.confirmarExclusao}')|">
+                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                            th:text="#{abrigos.excluir}">Excluir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-10 bg-white shadow-xl rounded-2xl p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-orange-600" th:text="#{abrigos.avaliacoesTitulo}">Avaliações</h2>
+            <a th:href="@{'/avaliacoes/novo/' + ${abrigo.id}}" sec:authorize="isAuthenticated()"
+               class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
+                <span th:text="#{avaliacoes.botaoNova}">Fazer Avaliação</span>
+            </a>
+        </div>
+
+        <div th:if="${avaliacoes != null and #lists.isEmpty(avaliacoes) == false}">
+            <ul class="space-y-4">
+                <li th:each="av : ${avaliacoes}" class="bg-gray-50 p-4 rounded shadow">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold" th:text="${av.usuarioUid}">Usuário</span>
+                        <span class="text-yellow-500">
+                            <span th:each="i : ${#numbers.sequence(1, av.nota)}">★</span>
+                            <span th:each="i : ${#numbers.sequence(av.nota + 1, 5)}">☆</span>
+                        </span>
+                    </div>
+
+                    <p class="mt-2" th:text="${av.comentario}">Comentário aqui</p>
+                    <p class="text-sm text-gray-500 mt-1"
+                       th:text="${#temporals.format(av.dataCriacao, 'dd/MM/yyyy HH:mm')}">Data</p>
+
+                    <div class="flex gap-4 mt-2"
+                         th:if="${av.usuarioUid == #authentication.name or #authorization.expression('hasRole(''ADMIN'')')}">
+                        <a th:href="@{|/avaliacoes/${av.id}/editar?abrigoId=${abrigo.id}|}"
+                           class="text-blue-600 hover:underline text-sm" th:text="#{avaliacoes.editar}">Editar</a>
+
+                        <form th:action="@{|/avaliacoes/${av.id}/excluir?abrigoId=${abrigo.id}|}" method="post"
+                              th:onsubmit="|return confirm('#{avaliacoes.confirmarExclusao}')|">
+                            <button type="submit" class="text-red-600 hover:underline text-sm" th:text="#{avaliacoes.excluir}">Excluir</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div th:if="${avaliacoes == null or #lists.isEmpty(avaliacoes)}" class="text-gray-500 italic">
+            <p th:text="#{abrigos.semAvaliacoes}">Nenhuma avaliação disponível.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
