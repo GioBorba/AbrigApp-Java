@@ -1,4 +1,4 @@
-package com.fiap.globalsolution.api;
+package com.fiap.globalsolution.controller.api;
 
 import com.fiap.globalsolution.dto.AbrigoResponseDTO;
 import com.fiap.globalsolution.service.AbrigoService;
