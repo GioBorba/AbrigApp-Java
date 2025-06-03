@@ -11,6 +11,7 @@
             <a href="/abrigos/lista" class="hover:underline" th:text="#{nav.abrigos}">Abrigos</a>
             <a href="/avaliacoes/minhas-avaliacoes" sec:authorize="isAuthenticated()" class="hover:underline"
                th:text="#{nav.minhasAvaliacoes}">Minhas Avaliações</a>
+            <a href="/chatai" sec:authorize="isAuthenticated()" class="hover:underline">Chat AI</a>
         </div>
         <div class="flex items-center space-x-4">
             <a href="?lang=pt" class="text-sm text-white">PT</a>

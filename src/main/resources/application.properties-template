@@ -1,0 +1,43 @@
+# Nome da aplicação
+spring.application.name=globalsolution
+
+# --- Internacionalização ---
+# Base dos arquivos de mensagens para suporte a i18n
+spring.messages.basename=messages
+# Codificação dos arquivos de mensagens
+spring.messages.encoding=UTF-8
+# Tempo de cache das mensagens (em segundos)
+spring.messages.cache-duration=3600
+
+# --- MongoDB Atlas ---
+# URI de conexão com o MongoDB Atlas (substitua com sua própria URI e credenciais)
+spring.data.mongodb.uri=mongodb+srv://usuario:senha@cluster-fiap.mongodb.net/global-solution?retryWrites=true&w=majority&appName=Cluster-fiap
+
+# --- OAuth2 - Google ---
+# Configurações para login via OAuth2 com Google
+spring.security.oauth2.client.registration.google.client-id=SEU_CLIENT_ID_GOOGLE
+spring.security.oauth2.client.registration.google.client-secret=SEU_CLIENT_SECRET_GOOGLE
+spring.security.oauth2.client.registration.google.scope=email,profile
+spring.security.oauth2.client.registration.google.redirect-uri={baseUrl}/login/oauth2/code/{registrationId}
+spring.security.oauth2.client.registration.google.client-name=Google
+spring.security.oauth2.client.provider.google.authorization-uri=https://accounts.google.com/o/oauth2/v2/auth
+spring.security.oauth2.client.provider.google.token-uri=https://oauth2.googleapis.com/token
+spring.security.oauth2.client.provider.google.user-info-uri=https://www.googleapis.com/oauth2/v3/userinfo
+spring.security.oauth2.client.provider.google.user-name-attribute=sub
+
+# --- RabbitMQ ---
+# Configuração para RabbitMQ CloudAMQP (substitua usuário, senha e host)
+spring.rabbitmq.addresses=amqps://usuario:senha@host.cloudamqp.com/vhost
+spring.rabbitmq.ssl.enabled=true
+
+# --- Spring AI - OpenAI ---
+# API Key para OpenAI
+spring.ai.openai.api-key=YOUR_OPENAI_API_KEY
+# Modelo de chat usado
+spring.ai.openai.chat.model=gpt-4.1
+
+# --- Cloud Function Scan ---
+# Desabilita o scan automático de funções do Spring Cloud Function
+spring.cloud.function.scan.packages=none
+
+server.port=8080

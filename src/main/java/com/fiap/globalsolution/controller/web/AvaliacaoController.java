@@ -57,7 +57,7 @@ public class AvaliacaoController {
         return "redirect:/abrigos/" + dto.abrigoId();
     }
 
-    // Formulário de edição (apenas autor ou admin)
+    // Formulário de edição (apenas autor)
     @GetMapping("/{id}/editar")
     public String editarForm(@PathVariable String id,
                              @RequestParam("abrigoId") String abrigoId,

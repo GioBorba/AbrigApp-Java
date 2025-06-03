@@ -96,6 +96,6 @@ public class AbrigoController {
     @PreAuthorize("hasRole('ADMIN')")
     public String excluir(@PathVariable String id) {
         abrigoService.deletar(id, Role.ADMIN);
-        return "redirect:/abrigos";
+        return "redirect:/abrigos/lista";
     }
 }

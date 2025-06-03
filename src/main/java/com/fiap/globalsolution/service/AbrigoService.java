@@ -4,6 +4,7 @@ import com.fiap.globalsolution.dto.AbrigoRequestDTO;
 import com.fiap.globalsolution.dto.AbrigoResponseDTO;
 import com.fiap.globalsolution.model.Abrigo;
 import com.fiap.globalsolution.model.Role;
+import com.fiap.globalsolution.rabbitmq.AbrigoProducer;
 import com.fiap.globalsolution.repository.AbrigoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ public class AbrigoService {
 
     @Autowired
     private AbrigoRepository abrigoRepository;
+    @Autowired
+    private AbrigoProducer abrigoProducer;
 
     // Listar TODOS os abrigos
     public List<AbrigoResponseDTO> listarTodos() {
@@ -45,6 +48,7 @@ public class AbrigoService {
         abrigo.setAtivo(true); // Default: true (ativo)
 
         abrigo = abrigoRepository.save(abrigo);
+        abrigoProducer.enviarMensagem("Novo abrigo registrado no endereço: " + abrigo.getEndereco());
         return toResponseDTO(abrigo);
     }
 

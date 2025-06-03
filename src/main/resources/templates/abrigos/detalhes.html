@@ -30,17 +30,6 @@
                class="text-blue-600 hover:underline"
                th:text="#{abrigos.comoChegar}">Como chegar</a>
 
-            <div class="flex gap-4" sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/abrigos/' + ${abrigo.id} + '/editar'}"
-                   class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                   th:text="#{abrigos.editar}">Editar</a>
-
-                <form th:action="@{'/abrigos/' + ${abrigo.id} + '/excluir'}" method="post"
-                      th:onsubmit="|return confirm('#{abrigos.confirmarExclusao}')|">
-                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-                            th:text="#{abrigos.excluir}">Excluir</button>
-                </form>
-            </div>
         </div>
     </div>
 
@@ -69,7 +58,7 @@
                        th:text="${#temporals.format(av.dataCriacao, 'dd/MM/yyyy HH:mm')}">Data</p>
 
                     <div class="flex gap-4 mt-2"
-                         th:if="${av.usuarioUid == #authentication.name or #authorization.expression('hasRole(''ADMIN'')')}">
+                         th:if="${av.usuarioUid == #authentication.name}">
                         <a th:href="@{|/avaliacoes/${av.id}/editar?abrigoId=${abrigo.id}|}"
                            class="text-blue-600 hover:underline text-sm" th:text="#{avaliacoes.editar}">Editar</a>
 

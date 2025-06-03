@@ -4,6 +4,7 @@ import com.fiap.globalsolution.dto.AvaliacaoRequestDTO;
 import com.fiap.globalsolution.dto.AvaliacaoResponseDTO;
 import com.fiap.globalsolution.model.Abrigo;
 import com.fiap.globalsolution.model.Avaliacao;
+import com.fiap.globalsolution.rabbitmq.AvaliacaoProducer;
 import com.fiap.globalsolution.repository.AbrigoRepository;
 import com.fiap.globalsolution.repository.AvaliacaoRepository;
 import jakarta.validation.Valid;
@@ -26,6 +27,9 @@ public class AvaliacaoService {
     @Autowired
     private AbrigoRepository abrigoRepository;
 
+    @Autowired
+    private AvaliacaoProducer avaliacaoProducer;
+
     public AvaliacaoResponseDTO criarAvaliacao(@Valid AvaliacaoRequestDTO dto, Authentication auth) {
         String usuarioId = auth.getName();
 
@@ -43,6 +47,8 @@ public class AvaliacaoService {
                 .build();
 
         Avaliacao salva = avaliacaoRepository.save(avaliacao);
+        avaliacaoProducer.enviarMensagem("Avaliação feita pelo usuário: " + usuarioId);
+
 
         return new AvaliacaoResponseDTO(
                 salva.getId(),
@@ -75,10 +81,9 @@ public class AvaliacaoService {
 
         String usuarioAtual = auth.getName();
 
-        boolean isAdmin = auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"));
         boolean isDono = avaliacao.getUsuarioUid().equals(usuarioAtual);
 
-        if (!isAdmin && !isDono) {
+        if (!isDono) {
             throw new SecurityException("Sem permissão para editar esta avaliação");
         }
 

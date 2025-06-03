@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{ajuda.titulo}">Ajuda com AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+<div th:replace="fragments/header :: header"></div>
+<div class="max-w-xl mx-auto bg-white shadow-lg rounded-xl p-6">
+    <h1 class="text-2xl font-bold text-orange-600 mb-4" th:text="#{ajuda.titulo}">Ajuda com AI</h1>
+
+    <form method="post" class="mb-4">
+        <label for="pergunta" class="block text-gray-700 mb-1" th:text="#{ajuda.pergunta}">Sua pergunta:</label>
+        <input type="text" id="pergunta" name="question" required
+               class="w-full p-2 border border-gray-300 rounded mb-3"
+               th:placeholder="#{ajuda.placeholder}">
+
+        <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
+            <span th:text="#{ajuda.botao}">Perguntar</span>
+        </button>
+    </form>
+
+    <div th:if="${resposta}">
+        <h2 class="text-xl font-semibold text-gray-800 mb-2" th:text="#{ajuda.resposta}">Resposta:</h2>
+        <p class="text-gray-600 italic mb-2">Você perguntou: <span th:text="${question}">...</span></p>
+        <p class="bg-gray-100 p-3 rounded text-gray-700" th:text="${resposta}">A resposta aparecerá aqui.</p>
+    </div>
+
+</div>
+</body>
+</html>
