@@ -5,7 +5,6 @@ COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Etapa 2: imagem final para rodar o app
 FROM eclipse-temurin:21-jdk
 VOLUME /tmp
 EXPOSE 8080
