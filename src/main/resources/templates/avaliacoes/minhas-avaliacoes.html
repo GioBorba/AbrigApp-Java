@@ -6,7 +6,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-900">
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="~{fragments/header :: header}"></div>
 
 <div class="container mx-auto p-6">
     <div class="bg-white shadow-xl rounded-2xl p-8 space-y-6">
@@ -18,7 +18,7 @@
                     <div class="flex justify-between items-center">
                         <span class="text-sm text-gray-600">
                             <span th:text="#{avaliacoes.abrigo}">Abrigo:</span>
-                            <span th:text="${av.abrigoId}">ID</span>
+                            <span th:text="${nomesAbrigos[av.abrigoId]}">Nome</span>
                         </span>
                         <span class="text-yellow-500">
                             <span th:each="i : ${#numbers.sequence(1, av.nota)}">★</span>

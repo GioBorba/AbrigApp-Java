@@ -9,4 +9,5 @@ public interface AbrigoRepository extends MongoRepository<Abrigo, String> {
     List<Abrigo> findByEstado(String estado);
     List<Abrigo> findByCidade(String cidade);
     List<Abrigo> findByEstadoAndCidade(String estado, String cidade);
+
 }

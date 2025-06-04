@@ -2,6 +2,7 @@ package com.fiap.globalsolution.controller.web;
 
 import com.fiap.globalsolution.dto.AvaliacaoRequestDTO;
 import com.fiap.globalsolution.dto.AvaliacaoResponseDTO;
+import com.fiap.globalsolution.service.AbrigoService;
 import com.fiap.globalsolution.service.AvaliacaoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/avaliacoes")
@@ -19,6 +22,7 @@ import java.util.List;
 public class AvaliacaoController {
 
     private final AvaliacaoService avaliacaoService;
+    private final AbrigoService abrigoService;
 
     // Listar avaliações de um abrigo (público)
     @GetMapping("/abrigo/{abrigoId}")
@@ -40,7 +44,16 @@ public class AvaliacaoController {
     @GetMapping("/minhas-avaliacoes")
     public String listarMinhasAvaliacoes(Model model, Authentication auth) {
         List<AvaliacaoResponseDTO> avaliacoes = avaliacaoService.listarPorUsuario(auth);
+        Map<String, String> nomesAbrigos = avaliacoes.stream()
+                .map(AvaliacaoResponseDTO::abrigoId)
+                .distinct()
+                .collect(Collectors.toMap(
+                        id -> id,
+                        abrigoService::buscarNomePorId
+                ));
+
         model.addAttribute("avaliacoes", avaliacoes);
+        model.addAttribute("nomesAbrigos", nomesAbrigos);
         return "avaliacoes/minhas-avaliacoes";
     }
 

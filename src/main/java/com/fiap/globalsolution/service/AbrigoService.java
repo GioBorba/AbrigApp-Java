@@ -123,4 +123,11 @@ public class AbrigoService {
                 abrigo.getAtivo()
         );
     }
+
+    public String buscarNomePorId(String id) {
+        return abrigoRepository.findById(id)
+                .map(Abrigo::getNome)
+                .orElse("Abrigo não encontrado");
+    }
+
 }
