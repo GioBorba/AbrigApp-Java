@@ -36,9 +36,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/home", "/abrigos", "/abrigos/**").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/api/avaliacoes/**").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/api/avaliacoes/**").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/api/avaliacoes/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/abrigos/**").permitAll()
+                        .requestMatchers("/api/avaliacoes/**").authenticated()
+
 
                         .requestMatchers("/usuarios/**").hasRole("ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
