@@ -58,6 +58,7 @@ Ao acessar o sistema, você poderá visualizar uma lista de abrigos disponíveis
 
 - Página inicial pública
 - Lista de abrigos
+- Lista de avaliações feita pelo usuário autenticado.
 - Detalhes e avaliações de cada abrigo
 - Área administrativa para cadastro de abrigos (restrita a ADMIN)
 - Chat com assistente inteligente
