@@ -8,6 +8,9 @@ Ao acessar o sistema, você poderá visualizar uma lista de abrigos disponíveis
 
 **Vídeo demonstrativo:** https://www.youtube.com/watch?v=9E9y1On1duw
 
+
+**Pitch da solução:** https://www.youtube.com/watch?v=sCYrYkPPtKc
+
 ---
 
 ## ✨ Funcionalidades
